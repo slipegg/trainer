@@ -627,6 +627,25 @@ spec:
                         format: int32
                         type: integer
                     type: object
+                  volcano:
+                    description: VolcanoPodGroupPolicySource represents configuration
+                      for the Volcano scheduling plugin.
+                    properties:
+                      priorityClassName:
+                        description: |-
+                          If specified, indicates the PodGroup's priority. "system-node-critical" and
+                          "system-cluster-critical" are two special keywords that indicate the highest priorities,
+                          with the former being the highest priority. Any other name must be defined by creating
+                          a PriorityClass object with that name. If not specified, the PodGroup priority will
+                          be default or zero if there is no default.
+                        type: string
+                      queue:
+                        default: default
+                        description: |-
+                          Queue defines the queue to allocate resource for PodGroup; if the queue does not exist,
+                          the PodGroup will not be scheduled. Defaults to the default Queue with the lowest weight.
+                        type: string
+                    type: object
                 type: object
               template:
                 description: JobSet template which will be used by TrainJob.

@@ -9,7 +9,6 @@ rules:
   resources:
   - configmaps
   - secrets
-  - limitranges
   verbs:
   - create
   - get
@@ -17,14 +16,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-    - node.k8s.io
-  resources:
-    - runtimeclasses
-  verbs:
-    - get
-    - list
-    - watch
 - apiGroups:
   - admissionregistration.k8s.io
   resources:
@@ -46,6 +37,7 @@ rules:
   - update
   - watch
 - apiGroups:
+  - scheduling.volcano.
   - scheduling.x-k8s.io
   resources:
   - podgroups
@@ -56,17 +48,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-    - scheduling.volcano.sh
-  resources:
-    - podgroups
-  verbs:
-    - create
-    - get
-    - list
-    - patch
-    - update
-    - watch
 - apiGroups:
   - trainer.kubeflow.org
   resources:
