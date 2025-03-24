@@ -1,0 +1,34 @@
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: ClusterTrainingRuntime
+metadata:
+  labels:
+    trainer.kubeflow.org/phase: pre-training
+  name: volcano-group
+spec:
+  podGroupPolicy:
+    volcano:
+      priorityClassName: high-prority
+      queue: default
+  template:
+    spec:
+      replicatedJobs:
+        - name: volcano-group
+          replicas: 1
+          template:
+            spec:
+              parallelism: 3
+              completions: 3
+              template:
+                spec:
+                  containers:
+                    - command:
+                        - /bin/bash
+                        - -c
+                        - |
+                          echo "Volcano-group Runtime"
+                          
+                          sleep 90
+                          echo "--------------------------------------"
+                          echo "Finish sleep 90s"
+                      image: pytorch/pytorch:2.5.0-cuda12.4-cudnn9-runtime
+                      name: trainer

@@ -1,0 +1,12 @@
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+  name: volcano-test-job
+  namespace: default
+spec:
+  managedBy: trainer.kubeflow.org/trainjob-controller
+  runtimeRef:
+    apiGroup: trainer.kubeflow.org
+    kind: ClusterTrainingRuntime
+    name: volcano-group
+  suspend: false
