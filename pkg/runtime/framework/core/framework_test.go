@@ -22,6 +22,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/kubeflow/trainer/pkg/runtime/framework/plugins/volcano"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -72,6 +73,7 @@ func TestNew(t *testing.T) {
 				registry: fwkplugins.NewRegistry(),
 				plugins: map[string]framework.Plugin{
 					coscheduling.Name: &coscheduling.CoScheduling{},
+					volcano.Name:      &volcano.Volcano{},
 					mpi.Name:          &mpi.MPI{},
 					plainml.Name:      &plainml.PlainML{},
 					torch.Name:        &torch.Torch{},
@@ -84,6 +86,7 @@ func TestNew(t *testing.T) {
 				},
 				enforcePodGroupPolicyPlugins: []framework.EnforcePodGroupPolicyPlugin{
 					&coscheduling.CoScheduling{},
+					&volcano.Volcano{},
 				},
 				customValidationPlugins: []framework.CustomValidationPlugin{
 					&mpi.MPI{},
@@ -92,6 +95,7 @@ func TestNew(t *testing.T) {
 				},
 				watchExtensionPlugins: []framework.WatchExtensionPlugin{
 					&coscheduling.CoScheduling{},
+					&volcano.Volcano{},
 					&jobset.JobSet{},
 					&mpi.MPI{},
 				},
@@ -100,6 +104,7 @@ func TestNew(t *testing.T) {
 				},
 				componentBuilderPlugins: []framework.ComponentBuilderPlugin{
 					&coscheduling.CoScheduling{},
+					&volcano.Volcano{},
 					&jobset.JobSet{},
 					&mpi.MPI{},
 				},
@@ -125,8 +130,9 @@ func TestNew(t *testing.T) {
 	}
 	cmpOpts := []cmp.Option{
 		cmp.AllowUnexported(Framework{}),
-		cmpopts.IgnoreUnexported(coscheduling.CoScheduling{}, mpi.MPI{}, plainml.PlainML{}, torch.Torch{}, jobset.JobSet{}),
+		cmpopts.IgnoreUnexported(coscheduling.CoScheduling{}, volcano.Volcano{}, mpi.MPI{}, plainml.PlainML{}, torch.Torch{}, jobset.JobSet{}),
 		cmpopts.IgnoreFields(coscheduling.CoScheduling{}, "client"),
+		cmpopts.IgnoreFields(volcano.Volcano{}, "client"),
 		cmpopts.IgnoreFields(jobset.JobSet{}, "client"),
 		cmpopts.IgnoreTypes(apiruntime.Scheme{}, meta.DefaultRESTMapper{}, fwkplugins.Registry{}),
 		cmpopts.SortMaps(func(a, b string) bool { return a < b }),

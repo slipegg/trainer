@@ -22,6 +22,7 @@ import (
 	"flag"
 	"net/http"
 	"os"
+	volcanov1beta1 "volcano.sh/apis/pkg/apis/scheduling/v1beta1"
 
 	zaplog "go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -60,6 +61,7 @@ func init() {
 	utilruntime.Must(trainer.AddToScheme(scheme))
 	utilruntime.Must(jobsetv1alpha2.AddToScheme(scheme))
 	utilruntime.Must(schedulerpluginsv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(volcanov1beta1.AddToScheme(scheme))
 }
 
 func main() {
